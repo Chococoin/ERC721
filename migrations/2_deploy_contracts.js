@@ -9,16 +9,7 @@ var ERC721BasicToken = artifacts.require("./ERC721BasicToken.sol");
 var ERC721Token = artifacts.require("./ERC721Token.sol");
 
 module.exports = function(deployer) {
-  deployer.deploy(AUtils);
-  deployer.deploy(SafeMath);
-  deployer.deploy(ERC721Receiver);
-  deployer.deploy(ERC165);
-  deployer.deploy(ERC165Basic);
-  deployer.deploy(ERC721);
-  deployer.deploy(SupportsInterfaceWithLookup);
-  deployer.deploy(ERC721BasicToken).then(function(){ 
-  	var name = 'CocoaVirtualFields';
-  	var symbol = 'CVF';
-  	return deployer.deploy(ERC721Token, name, symbol);
-  });
+  var name = 'CocoaVirtualFields';
+  var symbol = 'CVF';
+  deployer.deploy(ERC721Token, name, symbol);
 };
