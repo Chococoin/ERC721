@@ -1,7 +1,7 @@
-var ERC721Token = artifacts.require("./ERC721Token.sol");
+var CocoaVirtualFields = artifacts.require("./CocoaVirtualField.sol");
 
 module.exports = function(deployer) {
   var name = 'CocoaVirtualFields';
   var symbol = 'CVF';
-  deployer.deploy(ERC721Token, name, symbol);
+  deployer.deploy(CocoaVirtualFields, name, symbol);
 };

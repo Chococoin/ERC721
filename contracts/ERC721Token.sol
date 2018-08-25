@@ -35,18 +35,6 @@ contract ERC721Token is SupportsInterfaceWithLookup, ERC721BasicToken, ERC721 {
   mapping(uint256 => string) internal tokenURIs;
 
   /**
-   * @dev Constructor function
-   */
-  constructor(string _name, string _symbol) public {
-    name_ = _name;
-    symbol_ = _symbol;
-
-    // register the supported interfaces to conform to ERC721 via ERC165
-    _registerInterface(InterfaceId_ERC721Enumerable);
-    _registerInterface(InterfaceId_ERC721Metadata);
-  }
-
-  /**
    * @dev Gets the token name
    * @return string representing the token name
    */
