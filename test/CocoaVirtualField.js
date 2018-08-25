@@ -29,13 +29,13 @@ contract('CocoaVirtualField', function(accounts) {
     });
   });
 
-  it('create the deed with the right id', function(){
+/*  it('create the deed with the right id', function(){
     return CocoaVirtualField.deployed().then((instance) => {
       contractInstance = instance;
       return contractInstance.totalSupply();
     }).then((NumOfTokens)=> {
         assert(NumOfTokens, 0, 'Has not token yet.');
-        return contractInstance.createDeed("texto");
+        return contractInstance.createDeed("texto", {from: owner});
     }).then((bool)=> {
         assert(bool, true, 'deed has been created.');
         return contractInstance.totalSupply();
@@ -58,7 +58,38 @@ contract('CocoaVirtualField', function(accounts) {
     }).then((NumOfTokens)=>{
         assert(NumOfTokens, 3, 'Another deed created.')
     });
-  });
+  });*/
+
+  it('create the deed with the right id', function(){
+    return CocoaVirtualField.deployed().then((instance) => {
+      contractInstance = instance;
+      return contractInstance.totalSupply();
+    }).then((NumOfTokens)=> {
+        assert(NumOfTokens, 0, 'Has not token yet.');
+        return contractInstance.createDeed({from: owner});
+    }).then((bool)=> {
+        assert(bool, true, 'deed has been created.');
+        return contractInstance.totalSupply();
+    }).then((NumOfTokens)=>{
+        assert(NumOfTokens, 1, 'token added.');
+        return contractInstance.myTrees.call(owner);
+    }).then((list)=>{
+        assert(list.length, 1, 'has a tree in list');
+        contractInstance.setAdmin(newAdmin)
+        return contractInstance.createDeed({from: newAdmin});
+    }).then((bool)=>{
+        assert(bool, true, 'admin create deed.');
+        return contractInstance.totalSupply();
+    }).then((NumOfTokens)=>{
+        assert(NumOfTokens, 2, 'token added by admin.');
+        return contractInstance.createDeed({from: owner});
+    }).then((bool)=>{
+        assert(bool, true, 'create a deed wihtout data');
+        return contractInstance.totalSupply();
+    }).then((NumOfTokens)=>{
+        assert(NumOfTokens, 3, 'Another deed created.')
+    });
+  }); 
 
   it('Set the admin of contract', function(){
     return CocoaVirtualField.deployed().then((instance)=> {
@@ -66,17 +97,20 @@ contract('CocoaVirtualField', function(accounts) {
       return contractInstance.admin;
     }).then((address)=>{
         assert(address, 0x0, 'has not admin.');
-        return contractInstance.setAdmin(newAdmin, {from: owner});  
+        return contractInstance.setAdmin(newAdmin);  
     }).then((address)=>{
         assert(address, newAdmin, 'has admin settled.');
     });
   });
 
-/*  it('Add data to a token', function(){
+  it('Add right name of contract', function(){
     return CocoaVirtualField.deployed().then((instance)=>{
-
+      contractInstance = instance;
+      return contractInstance.name();
+    }).then((str)=>{
+        assert(str, 'CocoaVirtualField', 'has the right name');
     });
-  });*/
+  });
 
 })
 
