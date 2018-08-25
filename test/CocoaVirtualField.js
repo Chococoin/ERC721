@@ -32,7 +32,7 @@ contract('CocoaVirtualField', function(accounts) {
         assert(list.length, 1, 'has a tree in list');
         return contractInstance.myTrees.call(newAdmin);
     }).then(assert.fail).catch((error)=>{
-        assert(error.message.indexOf('revert') >= 0, 'cannot show from');
+        assert(error.message.indexOf('revert') >= 0, 'cannot show tree witout have one');
         return contractInstance.createDeed({from: newAdmin});
     }).then(assert.fail).catch((error)=>{
         assert(error.message.indexOf('revert') >= 0, 'only admin can create deeds');
