@@ -33,6 +33,9 @@ contract('CocoaVirtualField', function(accounts) {
         return contractInstance.myTrees.call(newAdmin);
     }).then(assert.fail).catch((error)=>{
         assert(error.message.indexOf('revert') >= 0, 'cannot show from');
+        return contractInstance.createDeed({from: newAdmin});
+    }).then(assert.fail).catch((error)=>{
+        assert(error.message.indexOf('revert') >= 0, 'only admin can create deeds');
     });
   });
 
