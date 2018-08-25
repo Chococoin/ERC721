@@ -22,14 +22,14 @@ contract CocoaVirtualField is ERC721Token {
     return true;   
   }
 
-/*   function createDeed(string _URItree) external returns (bool){
+  function createDeed(string _URItree) external returns (bool){
     require(msg.sender == owner || msg.sender == admin);
     uint256[1] memory _tokenId;
     _tokenId[0] = totalSupply().add(1);
     _mint(owner, _tokenId[0]);
     setDataDeed(owner, _URItree, _tokenId[0]);
     return true;    
-  } */
+  }
 
   function setAdmin(address _newAdmin) external returns(bool){
     require(msg.sender == owner);

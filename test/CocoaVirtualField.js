@@ -87,7 +87,7 @@ contract('CocoaVirtualField', function(accounts) {
         assert(bool, true, 'create a deed wihtout data');
         return contractInstance.totalSupply();
     }).then((NumOfTokens)=>{
-        assert(NumOfTokens, 3, 'Another deed created.')
+        assert(NumOfTokens, 3, 'Another deed created.');
     });
   }); 
 
@@ -109,6 +109,16 @@ contract('CocoaVirtualField', function(accounts) {
       return contractInstance.name();
     }).then((str)=>{
         assert(str, 'CocoaVirtualField', 'has the right name');
+    });
+  });
+
+  it('Add data to deed with setDataDeed', function(){
+    return CocoaVirtualField.deployed().then((instance)=>{
+      contractInstance = instance;
+      contractInstance.createDeed();
+      return contractInstance.setDataDeed(owner, "SomeData", 1);
+    }).then((bool)=>{
+        assert(bool, true, 'function returns true');
     });
   });
 
