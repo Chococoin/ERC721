@@ -3,7 +3,8 @@ var CocoaVirtualField = artifacts.require('./CocoaVirtualField.sol');
 contract('CocoaVirtualField', function(accounts) {
 
   var contractInstance;
-  var newAdmin = '0xBA5F0EE1E4A5f0cE5980B0B6CA7E90460cc40C0a';  
+  var newAdmin = '0xBA5F0EE1E4A5f0cE5980B0B6CA7E90460cc40C0a';
+  var msgsender = web3.eth.accounts[0];
 
   it('initializes the contract with the correct values', function() {
     return CocoaVirtualField.deployed().then((instance) => {
@@ -26,6 +27,12 @@ contract('CocoaVirtualField', function(accounts) {
         return contractInstance.totalSupply();
     }).then((NumOfTokens)=>{
         assert(NumOfTokens, 1, 'token added.');
+        return contractInstance.myTrees.call(msgsender);
+    }).then((list)=>{
+        assert(list.length, 1, 'has a tree in list');
+        return contractInstance.myTrees.call(newAdmin);
+    }).then(assert.fail).catch((error)=>{
+        assert(error.message.indexOf('revert') >= 0, 'cannot show from');
     });
   });
 
@@ -41,9 +48,6 @@ contract('CocoaVirtualField', function(accounts) {
     });
   });
 });
-
-
-
 
 
 /*  it('initializes the contract with the correct values', function() {
