@@ -5,6 +5,7 @@ contract('CocoaVirtualField', function(accounts) {
   var contractInstance;
   var newAdmin = '0xBA5F0EE1E4A5f0cE5980B0B6CA7E90460cc40C0a';
   var msgsender = web3.eth.accounts[0];
+  var outsider = web3.eth.accounts[4];
 
   it('initializes the contract with the correct values', function() {
     return CocoaVirtualField.deployed().then((instance) => {
@@ -21,7 +22,7 @@ contract('CocoaVirtualField', function(accounts) {
       return contractInstance.totalSupply();
     }).then((NumOfTokens)=> {
         assert(NumOfTokens, 0, 'Has not token yet.');
-        return contractInstance.createDeed();
+        return contractInstance.createDeed("texto", {from: msgsender});
     }).then((bool)=> {
         assert(bool, true, 'deed has been created.');
         return contractInstance.totalSupply();
@@ -31,18 +32,24 @@ contract('CocoaVirtualField', function(accounts) {
     }).then((list)=>{
         assert(list.length, 1, 'has a tree in list');
         return contractInstance.myTrees.call(newAdmin);
-    }).then(assert.fail).catch((error)=>{
-        assert(error.message.indexOf('revert') >= 0, 'cannot show tree wihtout have one');
-        return contractInstance.createDeed({from: newAdmin});
-    }).then(assert.fail).catch((error)=>{
-        assert(error.message.indexOf('revert') >= 0, 'only admin can create deeds');
+    }).then(assert.fail).catch(function(error){
+        assert(error.message.indexOf('revert') >= 0, 'cannot show tree wihtout having one');
+        return contractInstance.createDeed({from: outsider});
+    }).then(assert.fail).catch(function(error){
+        assert(error.message.indexOf('revert') >= 0, 'only owner/admin can create deeds');
         contractInstance.setAdmin(newAdmin, {from: msgsender});
-        return contractInstance.createDeed({from: newAdmin});
+        return contractInstance.createDeed("texto",{from: newAdmin});
     }).then((bool)=>{
         assert(bool, true, 'admin create deed.');
         return contractInstance.totalSupply();
     }).then((NumOfTokens)=>{
         assert(NumOfTokens, 2, 'token added by admin.');
+        return contractInstance.createDeed({from: msgsender});
+    }).then((bool)=>{
+        assert(bool, true, 'create a deed wihtout data');
+        return contractInstance.totalSupply();
+    }).then((NumOfTokens)=>{
+        assert(NumOfTokens, 3, 'Another deed created.')
     });
   });
 
@@ -57,20 +64,15 @@ contract('CocoaVirtualField', function(accounts) {
         assert(address, newAdmin, 'has admin settled.');
     });
   });
-});
 
+/*  it('Add data to a token', function(){
+    return CocoaVirtualField.deployed().then((instance)=>{
 
-/*  it('initializes the contract with the correct values', function() {
-    return DappTokenSale.deployed().then(function(instance) {
-      tokenSaleInstance = instance;
-      return tokenSaleInstance.address
-    }).then(function(address) {
-      assert.notEqual(address, 0x0, 'has contract address');
-      return tokenSaleInstance.tokenContract();
-    }).then(function(address) {
-      assert.notEqual(address, 0x0, 'has token contract address');
-      return tokenSaleInstance.tokenPrice();
-    }).then(function(price) {
-      assert.equal(price, tokenPrice, 'token price is correct');
     });
   });*/
+
+})
+
+
+// .then(assert.fail).catch(function(error) {
+//       assert(error.message.indexOf('revert') >= 0, 'cannot purchase more tokens than available');

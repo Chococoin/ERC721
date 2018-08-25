@@ -19,8 +19,20 @@ contract CocoaVirtualField is ERC721Token {
 
   function createDeed() external returns (bool){
     require(msg.sender == owner || msg.sender == admin);
-    _mint(owner, totalSupply().add(1));
-    return true;
+    uint256[1] memory _tokenId;
+    _tokenId[0] = totalSupply().add(1);
+    _mint(owner, _tokenId[0]);
+    setDataDeed(owner, "NoData", _tokenId[0]);
+    return true;   
+  }
+
+  function createDeed(string _URItree) external returns (bool){
+    require(msg.sender == owner || msg.sender == admin);
+    uint256[1] memory _tokenId;
+    _tokenId[0] = totalSupply().add(1);
+    _mint(owner, _tokenId[0]);
+    setDataDeed(owner, _URItree, _tokenId[0]);
+    return true;    
   }
 
   function setAdmin(address _newAdmin) external returns(bool){
@@ -29,13 +41,13 @@ contract CocoaVirtualField is ERC721Token {
     return true;
   }
 
-  function myTrees(address _tokenOwner) external returns (uint256[]){
+  function myTrees(address _tokenOwner) external view returns (uint256[]){
     require(msg.sender == _tokenOwner);
     return ownedTokens[_tokenOwner];
   }
 
   function setDataDeed(address _treeOwner, string _URItree, uint256 _tokenId)
-  external returns (bool){
+  public returns (bool){
     treeMetaData[_tokenId] = Tree(_treeOwner, _URItree, true);
     return true;
   }
