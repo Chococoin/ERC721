@@ -19,6 +19,14 @@ contract ERC721Token is SupportsInterfaceWithLookup, ERC721BasicToken, ERC721 {
   // Token symbol
   string internal symbol_;
 
+  // Tree metada structure.
+  struct Tree {
+    address treeOwner;
+    string URItree;
+    bool active;    
+  }
+  
+
   // Mapping from owner to list of owned token IDs
   mapping(address => uint256[]) internal ownedTokens;
 
