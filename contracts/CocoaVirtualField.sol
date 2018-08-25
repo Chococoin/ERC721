@@ -33,5 +33,11 @@ contract CocoaVirtualField is ERC721Token {
     require(msg.sender == _tokenOwner);
     return ownedTokens[_tokenOwner];
   }
+
+  function setDataDeed(address _treeOwner, string _URItree, uint256 _tokenId)
+  external returns (bool){
+    treeMetaData[_tokenId] = Tree(_treeOwner, _URItree, true);
+    return true;
+  }
 }
 
