@@ -6,7 +6,6 @@ contract CocoaVirtualField is ERC721Token {
 
 	address public admin;
   address public owner;
-  //uint internal _idToken;
 
   constructor(string _name, string _symbol) public {
     name_ = _name;
