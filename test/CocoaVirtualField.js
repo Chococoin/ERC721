@@ -4,7 +4,7 @@ contract('CocoaVirtualField', function(accounts) {
 
   var contractInstance;
   var newAdmin = web3.eth.accounts[1];;
-  var msgsender = web3.eth.accounts[0];
+  var owner = web3.eth.accounts[0];
   var outsider = web3.eth.accounts[4];
 
   it('initializes the contract with the correct values', function() {
@@ -22,7 +22,7 @@ contract('CocoaVirtualField', function(accounts) {
       return contractInstance.admin;
     }).then((address)=>{
         assert(address, 0x0, 'has to address for admin yet');
-        return contractInstance.setAdmin(newAdmin, {msgsender});
+        return contractInstance.setAdmin(newAdmin, {owner});
     }).then((bool)=> {
         assert(bool, true, 'fuction return true at end');
         assert(contractInstance.admin, newAdmin, 'has new admin.');
@@ -41,17 +41,17 @@ contract('CocoaVirtualField', function(accounts) {
         return contractInstance.totalSupply();
     }).then((NumOfTokens)=>{
         assert(NumOfTokens, 1, 'token added.');
-        return contractInstance.myTrees.call(msgsender);
+        return contractInstance.myTrees.call(owner);
     }).then((list)=>{
         assert(list.length, 1, 'has a tree in list');
-        contractInstance.setAdmin(newAdmin, {from: msgsender})
+        contractInstance.setAdmin(newAdmin, {from: owner})
         return contractInstance.createDeed("texto",{from: newAdmin});
     }).then((bool)=>{
         assert(bool, true, 'admin create deed.');
         return contractInstance.totalSupply();
     }).then((NumOfTokens)=>{
         assert(NumOfTokens, 2, 'token added by admin.');
-        return contractInstance.createDeed("texto", {from: msgsender});
+        return contractInstance.createDeed("texto", {from: owner});
     }).then((bool)=>{
         assert(bool, true, 'create a deed wihtout data');
         return contractInstance.totalSupply();
@@ -66,7 +66,7 @@ contract('CocoaVirtualField', function(accounts) {
       return contractInstance.admin;
     }).then((address)=>{
         assert(address, 0x0, 'has not admin.');
-        return contractInstance.setAdmin(newAdmin, {from: msgsender});  
+        return contractInstance.setAdmin(newAdmin, {from: owner});  
     }).then((address)=>{
         assert(address, newAdmin, 'has admin settled.');
     });
