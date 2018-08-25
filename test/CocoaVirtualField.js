@@ -28,16 +28,9 @@ contract('CocoaVirtualField', function(accounts) {
         return contractInstance.totalSupply();
     }).then((NumOfTokens)=>{
         assert(NumOfTokens, 1, 'token added.');
-        return contractInstance.myTrees.call(msgsender);
+        return contractInstance.myTrees.call(msgsender, {from: msgsender});
     }).then((list)=>{
         assert(list.length, 1, 'has a tree in list');
-        return contractInstance.myTrees.call(newAdmin);
-    }).then(assert.fail).catch(function(error){
-        assert(error.message.indexOf('revert') >= 0, 'cannot show tree wihtout having one');
-        return contractInstance.createDeed({from: outsider});
-    }).then(assert.fail).catch(function(error){
-        assert(error.message.indexOf('revert') >= 0, 'only owner/admin can create deeds');
-        contractInstance.setAdmin(newAdmin, {from: msgsender});
         return contractInstance.createDeed("texto",{from: newAdmin});
     }).then((bool)=>{
         assert(bool, true, 'admin create deed.');
@@ -59,7 +52,7 @@ contract('CocoaVirtualField', function(accounts) {
       return contractInstance.admin;
     }).then((address)=>{
         assert(address, 0x0, 'has not admin.');
-        return contractInstance.setAdmin(newAdmin);  
+        return contractInstance.setAdmin(newAdmin, {from: msgsender});  
     }).then((address)=>{
         assert(address, newAdmin, 'has admin settled.');
     });
