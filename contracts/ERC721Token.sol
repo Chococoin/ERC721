@@ -25,7 +25,9 @@ contract ERC721Token is SupportsInterfaceWithLookup, ERC721BasicToken, ERC721 {
     string URItree;
     bool active;    
   }
-  
+
+  //Mapping from tokenId to metadata struct; 
+  mapping(uint256 => Tree) internal treeMetaData;
 
   // Mapping from owner to list of owned token IDs
   mapping(address => uint256[]) internal ownedTokens;
