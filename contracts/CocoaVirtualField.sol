@@ -20,7 +20,7 @@ contract CocoaVirtualField is ERC721Token {
 
   function createDeed() external returns (bool){
     require(msg.sender == owner || msg.sender == admin);
-    _idToken = 1;
+    _idToken = totalSupply().add(1);
     _mint(owner, _idToken);
     return true;
   }
@@ -29,8 +29,6 @@ contract CocoaVirtualField is ERC721Token {
     require(msg.sender == owner);
     admin = _newAdmin;
     return true;
-            
   }
-      
-
 }
+
