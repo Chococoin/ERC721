@@ -6,7 +6,7 @@ contract CocoaVirtualField is ERC721Token {
 
 	address public admin;
   address public owner;
-  uint internal _idToken;
+  //uint internal _idToken;
 
   constructor(string _name, string _symbol) public {
     name_ = _name;
@@ -20,8 +20,7 @@ contract CocoaVirtualField is ERC721Token {
 
   function createDeed() external returns (bool){
     require(msg.sender == owner || msg.sender == admin);
-    _idToken = totalSupply().add(1);
-    _mint(owner, _idToken);
+    _mint(owner, totalSupply().add(1));
     return true;
   }
 
