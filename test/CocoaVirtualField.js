@@ -36,6 +36,13 @@ contract('CocoaVirtualField', function(accounts) {
         return contractInstance.createDeed({from: newAdmin});
     }).then(assert.fail).catch((error)=>{
         assert(error.message.indexOf('revert') >= 0, 'only admin can create deeds');
+        contractInstance.setAdmin(newAdmin, {from: msgsender});
+        return contractInstance.createDeed({from: newAdmin});
+    }).then((bool)=>{
+        assert(bool, true, 'admin create deed.');
+        return contractInstance.totalSupply();
+    }).then((NumOfTokens)=>{
+        assert(NumOfTokens, 2, 'token added by admin.');
     });
   });
 
