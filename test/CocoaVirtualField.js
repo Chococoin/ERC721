@@ -12,7 +12,7 @@ contract('CocoaVirtualField', function(accounts) {
       contractInstance = instance;
       return contractInstance.address;
     }).then((address)=> {
-        assert.notEqual(address, 0x00, 'Has contract address');
+        assert.notEqual(address, 0x00, 'has contract address.');
       });
   });
 
@@ -21,7 +21,7 @@ contract('CocoaVirtualField', function(accounts) {
       contractInstance = instance;
       return contractInstance.admin;
     }).then((address)=>{
-        assert(address, 0x0, 'has to address for admin yet');
+        assert(address, 0x0, 'has to address for admin yet.');
         return contractInstance.setAdmin(newAdmin, {owner});
     }).then((bool)=> {
         assert(bool, true, 'fuction return true at end');
@@ -74,7 +74,7 @@ contract('CocoaVirtualField', function(accounts) {
         assert(NumOfTokens, 1, 'token added.');
         return contractInstance.myTrees.call(owner);
     }).then((list)=>{
-        assert(list.length, 1, 'has a tree in list');
+        assert(list.length, 1, 'has a tree in list.');
         contractInstance.setAdmin(newAdmin)
         return contractInstance.createDeed({from: newAdmin});
     }).then((bool)=>{
@@ -84,7 +84,7 @@ contract('CocoaVirtualField', function(accounts) {
         assert(NumOfTokens, 2, 'token added by admin.');
         return contractInstance.createDeed({from: owner});
     }).then((bool)=>{
-        assert(bool, true, 'create a deed wihtout data');
+        assert(bool, true, 'create a deed wihtout data.');
         return contractInstance.totalSupply();
     }).then((NumOfTokens)=>{
         assert(NumOfTokens, 3, 'Another deed created.');
@@ -108,7 +108,7 @@ contract('CocoaVirtualField', function(accounts) {
       contractInstance = instance;
       return contractInstance.name();
     }).then((str)=>{
-        assert(str, 'CocoaVirtualField', 'has the right name');
+        assert(str, 'CocoaVirtualField', 'has the right name.');
     });
   });
 
@@ -119,6 +119,11 @@ contract('CocoaVirtualField', function(accounts) {
       return contractInstance.setDataDeed(owner, "SomeData", 1);
     }).then((bool)=>{
         assert(bool, true, 'function returns true');
+        return contractInstance.showDataDeed(1);
+    }).then((lista)=>{
+        assert(lista[0], owner, 'return the owner of deed.');
+        assert(lista[1], "SomeData", 'return the data of the deed.');
+        assert(lista[2], true, 'return the state of deed.')
     });
   });
 
