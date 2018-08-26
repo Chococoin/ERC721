@@ -29,7 +29,6 @@ contract('CocoaVirtualField', function(accounts) {
     });
   });
 
-
 // Workaround to be aviable to work with Overload function in truffle.
 /*  it('create the deed with the right id', function(){
     return CocoaVirtualField.deployed().then((instance) => {
@@ -90,6 +89,12 @@ contract('CocoaVirtualField', function(accounts) {
         return contractInstance.totalSupply();
     }).then((NumOfTokens)=>{
         assert(NumOfTokens, 3, 'Another deed created.');
+        return contractInstance.createDeed({from:outsider});
+    }).then(assert.fail).catch((error)=>{
+        assert(error.message.indexOf('revert') >= 0, 'outsider cannot create deed.');
+        return contractInstance.totalSupply();
+    }).then((NumOfTokens)=>{
+        assert(NumOfTokens, 3, 'does not create a new deed.');
     });
   }); 
 
