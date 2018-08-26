@@ -35,38 +35,6 @@ contract('CocoaVirtualField', function(accounts) {
     });
   });
 
-// Workaround to be aviable to work with Overload function in truffle.
-/*  it('create the deed with the right id', function(){
-    return CocoaVirtualField.deployed().then((instance) => {
-      contractInstance = instance;
-      return contractInstance.totalSupply();
-    }).then((NumOfTokens)=> {
-        assert(NumOfTokens, 0, 'Has not token yet.');
-        return contractInstance.createDeed("texto", {from: owner});
-    }).then((bool)=> {
-        assert(bool, true, 'deed has been created.');
-        return contractInstance.totalSupply();
-    }).then((NumOfTokens)=>{
-        assert(NumOfTokens, 1, 'token added.');
-        return contractInstance.myTrees.call(owner);
-    }).then((list)=>{
-        assert(list.length, 1, 'has a tree in list');
-        contractInstance.setAdmin(newAdmin, {from: owner})
-        return contractInstance.createDeed("texto",{from: newAdmin});
-    }).then((bool)=>{
-        assert(bool, true, 'admin create deed.');
-        return contractInstance.totalSupply();
-    }).then((NumOfTokens)=>{
-        assert(NumOfTokens, 2, 'token added by admin.');
-        return contractInstance.createDeed("texto", {from: owner});
-    }).then((bool)=>{
-        assert(bool, true, 'create a deed wihtout data');
-        return contractInstance.totalSupply();
-    }).then((NumOfTokens)=>{
-        assert(NumOfTokens, 3, 'Another deed created.')
-    });
-  });*/
-
   it('create the deed with the right id', function(){
     return CocoaVirtualField.deployed().then((instance) => {
       contractInstance = instance;
@@ -116,7 +84,7 @@ contract('CocoaVirtualField', function(accounts) {
     });
   }); 
 
-    /*  it('Add data to deed with setDataDeed', function(){
+/*  it('Add data to deed with setDataDeed', function(){
     return CocoaVirtualField.deployed().then((instance)=>{
       contractInstance = instance;
       contractInstance.createDeed("NoData", {from: owner});      
@@ -145,4 +113,23 @@ contract('CocoaVirtualField', function(accounts) {
         assert(error.message.indexOf('revert') >= 0, 'cannot set data once the deed is propiety of final user.');
     });
   });*/
+
+  it('Set ownership of deed to new owner', function(){
+    return CocoaVirtualField.deployed().then((instance)=>{
+      contractInstance = instance;
+      return contractInstance.showActiveTree(3);
+    }).then((bool)=>{
+        assert.equal(bool, true, 'must be true.');
+        return contractInstance.setOwnershipDeed(outsider, 2, {from: outsider});
+    }).then(assert.fail).catch((error)=>{            
+        assert(error.message.indexOf('revert') >= 0, 'outsider cannot set ownership.');
+        contractInstance.setOwnershipDeed(outsider,  2, {from: owner});
+        return contractInstance.showTreeOwner(2);
+    }).then((address)=>{      
+        assert.equal(address, outsider, 'outsider is the new owner of deed.')
+        return contractInstance.setOwnershipDeed(admin,  2, {from: owner});
+    }).then(assert.fail).catch((error)=>{
+        assert(error.message.indexOf('revert') >= 0, 'cannot set data once the deed is propiety of final user.');
+    });
+  });
 })
