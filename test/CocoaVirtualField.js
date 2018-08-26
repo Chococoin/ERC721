@@ -122,8 +122,7 @@ contract('CocoaVirtualField', function(accounts) {
         return contractInstance.showTreeOwner(1);
     }).then((address)=>{
         assert(address, owner, 'return the owner of deed.');
-        //return contractInstance.showTreeURI(1);
-        return "SomeData";
+        return contractInstance.showTreeURI(1);
     }).then((string)=>{
         assert(string, "SomeData", 'return the data of the deed.');
         //assert(lista[2], true, 'return the state of deed.')
