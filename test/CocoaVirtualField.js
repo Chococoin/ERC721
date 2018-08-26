@@ -143,7 +143,12 @@ contract('CocoaVirtualField', function(accounts) {
         assert(error.message.indexOf('revert') >= 0, 'outsider cannot set ownership.');
         return contractInstance.setOwnershipDeed.call(outsider,  2, {from: owner});
     }).then((bool)=>{
-        assert.equal(bool, true, 'aaaf');
+        assert.equal(bool, true, 'owner transfer ownership');
+        //return contractInstance.setDataDeed.call(owner, "", 2, {from: outsider});
+        contractInstance.setOwnershipDeed(outsider,  2, {from: owner});
+        return contractInstance.showTreeOwner(2);
+    }).then((address)=>{
+        assert.equal(address, outsider, 'outsider is the new owner of deed.')
     });
   });
 })

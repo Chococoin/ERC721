@@ -71,8 +71,7 @@ contract CocoaVirtualField is ERC721Token {
   function setOwnershipDeed(address _to, uint256 _tokenId) external returns(bool){
     require(msg.sender == treeMetaData[_tokenId].treeOwner);
     require(treeMetaData[_tokenId].active == true);
-    address temporal = _to;
-    uint256 temporal2 = _tokenId;
+    treeMetaData[_tokenId].treeOwner = _to;
     return true;
   }
 }
