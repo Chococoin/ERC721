@@ -112,7 +112,7 @@ contract('CocoaVirtualField', function(accounts) {
       contractInstance = instance;
       contractInstance.createDeed("NoData", {from: owner});      
       contractInstance.createDeed("NoData", {from: owner});
-      return contractInstance.setDataDeed.call(owner, "NoData", 1);
+      return contractInstance.setDataDeed.call(owner, "NoData", 1, {from: owner});
     }).then((bool)=>{
         assert.equal(bool, true, 'function returns true.');
         return contractInstance.showTreeOwner(1);
