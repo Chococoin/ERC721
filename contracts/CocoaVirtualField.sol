@@ -61,6 +61,10 @@ contract CocoaVirtualField is ERC721Token {
     return(treeMetaData[_tokenId].active);
   }
 
+  function setOwnershipDeed(address _to) external returns(bool){
+    return true;
+  }
+
 
 }
 
