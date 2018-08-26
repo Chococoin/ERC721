@@ -138,7 +138,7 @@ contract('CocoaVirtualField', function(accounts) {
         contractInstance.createDeed();
         return contractInstance.setDataDeed(owner, "SomeData", 2, {from:outsider});
     }).then(assert.fail).catch((error)=>{
-         assert(error.message.indexOf('revert') >= 0, 'Outside cannot save data' );
+         assert(error.message.indexOf('revert') >= 0, 'Outside cannot save data.' );
     });
   });
 
@@ -149,8 +149,9 @@ contract('CocoaVirtualField', function(accounts) {
        contractInstance.createDeed();
        return contractInstance.setOwnershipDeed(outsider, 2, {from: owner});
      }).then((bool)=>{
-        assert(bool, true, 'ejecute the functio setOwnershipDeed.');
-     })
+        //assert(bool, true, 'ejecute the function setOwnershipDeed.');
+        assert(bool, false, 'cannot ejecute setOwnershipDeed with an inactive tree.');
+     });
   });
 
 })
