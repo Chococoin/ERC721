@@ -29,6 +29,8 @@ contract('CocoaVirtualField', function(accounts) {
     });
   });
 
+
+// Workaround to be aviable to work with Overload function in truffle.
 /*  it('create the deed with the right id', function(){
     return CocoaVirtualField.deployed().then((instance) => {
       contractInstance = instance;
