@@ -130,6 +130,10 @@ contract('CocoaVirtualField', function(accounts) {
         return contractInstance.setDataDeed.call(outsider, "NoData", 5, {from: newAdmin});
     }).then((bool)=>{
         assert.equal(bool, true, 'admin may set data deed.');
+        contractInstance.setDataDeed(outsider, "NoData", 5, {from: newAdmin});
+        return contractInstance.setDataDeed(owner, "NoData", 5, {from: newAdmin});
+    }).then(assert.fail).catch((error)=>{
+        assert(error.message.indexOf('revert') >= 0, 'cannot set data once the deed is propiety of final user.');
     });
   });
 
