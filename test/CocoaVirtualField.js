@@ -119,12 +119,15 @@ contract('CocoaVirtualField', function(accounts) {
       return contractInstance.setDataDeed(owner, "SomeData", 1);
     }).then((bool)=>{
         assert(bool, true, 'function returns true');
-        return contractInstance.showDataDeed(1);
-    }).then((lista)=>{
-        assert(lista[0], owner, 'return the owner of deed.');
-        assert(lista[1], "SomeData", 'return the data of the deed.');
-        assert(lista[2], true, 'return the state of deed.')
-    });
+        return contractInstance.showTreeOwner(1);
+    }).then((address)=>{
+        assert(address, owner, 'return the owner of deed.');
+        //return contractInstance.showTreeURI(1);
+        return "SomeData";
+    }).then((string)=>{
+        assert(string, "SomeData", 'return the data of the deed.');
+        //assert(lista[2], true, 'return the state of deed.')
+    })
   });
 
 })
