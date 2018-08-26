@@ -73,10 +73,10 @@ contract('CocoaVirtualField', function(accounts) {
       return contractInstance.totalSupply();
     }).then((NumOfTokens)=> {
         assert.equal(NumOfTokens.toNumber(), 0, 'Has not token yet.');
-        return contractInstance.createDeed.call("SomeData");
+        return contractInstance.createDeed.call("NoData");
     }).then((bool)=> {
         assert.equal(bool, true, 'deed has been created.');
-        contractInstance.createDeed("SomeData");
+        contractInstance.createDeed("NoData");
         return contractInstance.totalSupply();
     }).then((NumOfTokens)=>{
         assert.equal(NumOfTokens.toNumber(), 1, 'token added.');
@@ -84,21 +84,21 @@ contract('CocoaVirtualField', function(accounts) {
     }).then((list)=>{
         assert.equal(list.length, 1, 'has a tree in list.');
         contractInstance.setAdmin(newAdmin);
-        return contractInstance.createDeed.call("SomeData", {from: newAdmin});
+        return contractInstance.createDeed.call("NoData", {from: newAdmin});
     }).then((bool)=>{
         assert.equal(bool, true, 'admin create deed.');
-        contractInstance.createDeed("SomeData", {from: newAdmin});
+        contractInstance.createDeed("NoData", {from: newAdmin});
         return contractInstance.totalSupply();
     }).then((NumOfTokens)=>{
         assert.equal(NumOfTokens.toNumber(), 2, 'token added by admin.');
-        return contractInstance.createDeed.call("SomeData", {from: owner});
+        return contractInstance.createDeed.call("NoData", {from: owner});
     }).then((bool)=>{
         assert.equal(bool, true, 'create a deed wihtout data.');
-        contractInstance.createDeed("SomeData", {from: owner});
+        contractInstance.createDeed("NoData", {from: owner});
         return contractInstance.totalSupply();
     }).then((NumOfTokens)=>{      
         assert(NumOfTokens.toNumber(), 3, 'Another deed created.');
-        return contractInstance.createDeed("SomeData", {from:outsider});
+        return contractInstance.createDeed("NoData", {from:outsider});
     }).then(assert.fail).catch((error)=>{
         assert(error.message.indexOf('revert') >= 0, 'outsider cannot create deed.');
         return contractInstance.totalSupply();
@@ -110,9 +110,9 @@ contract('CocoaVirtualField', function(accounts) {
   it('Add data to deed with setDataDeed', function(){
     return CocoaVirtualField.deployed().then((instance)=>{
       contractInstance = instance;
-      contractInstance.createDeed("SomeData", {from: owner});      
-      contractInstance.createDeed("SomeData", {from: owner});
-      return contractInstance.setDataDeed.call(owner, "SomeData", 1);
+      contractInstance.createDeed("NoData", {from: owner});      
+      contractInstance.createDeed("NoData", {from: owner});
+      return contractInstance.setDataDeed.call(owner, "NoData", 1);
     }).then((bool)=>{
         assert.equal(bool, true, 'function returns true.');
         return contractInstance.showTreeOwner(1);
@@ -122,14 +122,12 @@ contract('CocoaVirtualField', function(accounts) {
     }).then((string)=>{    
         assert.equal(string, "NoData", 'return the data of the deed.');
         return contractInstance.showActiveTree(1, {from: newAdmin});
-    }).then((bool)=>{
-        console.log(error);           
+    }).then((bool)=>{         
         assert(bool, false, 'return the status of activation of tree. ');
-        return contractInstance.setDataDeed(owner, "SomeData", 1, {from: outsider});
+        return contractInstance.setDataDeed(owner, "NoData", 1, {from: outsider});
     }).then(assert.fail).catch((error)=>{
-        console.log(error);     
         assert(error.message.indexOf('revert') >= 0, 'outside cannot save data.' );
-        return contractInstance.createDeed("SomeData", {from: owner})
+        return contractInstance.createDeed("NoData", {from: owner})
     });
   });
 
@@ -138,18 +136,14 @@ contract('CocoaVirtualField', function(accounts) {
       contractInstance = instance;
       return contractInstance.showActiveTree(3);
     }).then((bool)=>{
-        console.log(bool);
-        assert.equal(bool, false, 'must be false.');
+        assert.equal(bool, true, 'must be true.');
         return contractInstance.setOwnershipDeed(outsider, 2, {from: outsider});
+        //return contractInstance.showTreeOwner(2);
     }).then(assert.fail).catch((error)=>{
-        console.log(error);
         assert(error.message.indexOf('revert') >= 0, 'outsider cannot set ownership.');
-        return contractInstance.setOwnershipDeed(outsider,  2, {from: owner});
+        return contractInstance.setOwnershipDeed.call(outsider,  2, {from: owner});
     }).then((bool)=>{
-        assert.equal(bool, false, 'aaaf');
+        assert.equal(bool, true, 'aaaf');
     });
   });
 })
-
-/*assert.fail).catch((error)=>{
-        assert(error.message.indexOf('revert') >= 0, 'Tree must be active.');*/

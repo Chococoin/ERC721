@@ -50,6 +50,7 @@ contract CocoaVirtualField is ERC721Token {
       treeMetaData[_tokenId] = Tree(_treeOwner, _URItree, true);
       return true;
     } else {
+      //TODO: Unit test!
       treeMetaData[_tokenId] = Tree(_treeOwner, _URItree, false);
       return true;
     }
