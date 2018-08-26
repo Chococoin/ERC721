@@ -105,9 +105,18 @@ contract('CocoaVirtualField', function(accounts) {
     }).then((NumOfTokens)=>{
         assert.equal(NumOfTokens.toNumber(), 3, 'does not create a new deed.');
     });
+  });
+
+  it('New deed created is propiety of 0x00', function(){
+    return CocoaVirtualField.deployed().then((instance)=>{
+      contractInstance = instance;
+      return contractInstance.showTreeOwner(3);
+    }).then((address)=>{
+        assert.equal(address, 0x00, 'new deed has 0x00 has owner tree.')
+    });
   }); 
 
-  it('Add data to deed with setDataDeed', function(){
+    /*  it('Add data to deed with setDataDeed', function(){
     return CocoaVirtualField.deployed().then((instance)=>{
       contractInstance = instance;
       contractInstance.createDeed("NoData", {from: owner});      
@@ -116,10 +125,10 @@ contract('CocoaVirtualField', function(accounts) {
     }).then((bool)=>{
         assert.equal(bool, true, 'function returns true.');
         return contractInstance.showTreeOwner(1);
-    }).then((address)=>{
-        assert.equal(address, owner, 'return the owner of deed.');
+    }).then((address)=>{      
+        assert.equal(address, 0x00, 'return the owner of deed.');
         return contractInstance.showTreeURI(1, {from: outsider});
-    }).then((string)=>{    
+    }).then((string)=>{   
         assert.equal(string, "NoData", 'return the data of the deed.');
         return contractInstance.showActiveTree(1, {from: newAdmin});
     }).then((bool)=>{         
@@ -128,33 +137,12 @@ contract('CocoaVirtualField', function(accounts) {
     }).then(assert.fail).catch((error)=>{
         assert(error.message.indexOf('revert') >= 0, 'outside cannot save data.' );
         return contractInstance.setDataDeed.call(outsider, "NoData", 5, {from: newAdmin});
-    }).then((bool)=>{
+    }).then((bool)=>{       
         assert.equal(bool, true, 'admin may set data deed.');
         contractInstance.setDataDeed(outsider, "NoData", 5, {from: newAdmin});
         return contractInstance.setDataDeed(owner, "NoData", 5, {from: newAdmin});
     }).then(assert.fail).catch((error)=>{
         assert(error.message.indexOf('revert') >= 0, 'cannot set data once the deed is propiety of final user.');
     });
-  });
-
-  it('Set ownership of deed to new owner', function(){
-    return CocoaVirtualField.deployed().then((instance)=>{
-      contractInstance = instance;
-      return contractInstance.showActiveTree(3);
-    }).then((bool)=>{
-        assert.equal(bool, true, 'must be true.');
-        return contractInstance.setOwnershipDeed(outsider, 2, {from: outsider});
-        //return contractInstance.showTreeOwner(2);
-    }).then(assert.fail).catch((error)=>{
-        assert(error.message.indexOf('revert') >= 0, 'outsider cannot set ownership.');
-        return contractInstance.setOwnershipDeed.call(outsider,  2, {from: owner});
-    }).then((bool)=>{
-        assert.equal(bool, true, 'owner transfer ownership');
-        //return contractInstance.setDataDeed.call(owner, "", 2, {from: outsider});
-        contractInstance.setOwnershipDeed(outsider,  2, {from: owner});
-        return contractInstance.showTreeOwner(2);
-    }).then((address)=>{
-        assert.equal(address, outsider, 'outsider is the new owner of deed.')
-    });
-  });
+  });*/
 })
