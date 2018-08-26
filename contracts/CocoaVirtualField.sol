@@ -50,11 +50,11 @@ contract CocoaVirtualField is ERC721Token {
 
   function showTreeOwner(uint256 _tokenId) public view  returns(address){
     return(treeMetaData[_tokenId].treeOwner);
- }
+  }
 
-  //function showTreeURI(uint256 _tokenId) public view  returns(string){
-  //return(treeMetaData[_tokenId].treeURI);
- //}
+  function showTreeURI(uint256 _tokenId) public view  returns(string){
+    return(treeMetaData[_tokenId].URItree);
+  }
 }
 
 
