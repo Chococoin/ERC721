@@ -125,30 +125,18 @@ contract('CocoaVirtualField', function(accounts) {
     }).then((bool)=>{      
         assert(bool, false, 'return the status of activation of tree. ');
         return contractInstance.setDataDeed(owner, "SomeData", 2, {from:outsider});
-    }).then(assert.fail).catch((error)=>{
-        console.log(error);       
-        assert(error.message.indexOf('revert') >= 0, 'Outside cannot save data.' );
+    }).then(assert.fail).catch((error)=>{      
+        assert(error.message.indexOf('revert') >= 0, 'outside cannot save data.' );
     });
   });
 
   it('Set ownership of deed to new owner', function(){
-     return CocoaVirtualField.deployed().then((instance)=>{
-       contractInstance = instance;
-       contractInstance.createDeed();
-       contractInstance.createDeed();
-       contractInstance.setOwnershipDeed(outsider, 2, {from: owner});
-       return contractInstance.showActiveTree(2);
-      }).then((bool)=>{
-          console.log(bool);
-          assert.equal(bool, false, 'igual a false');
-      }); 
-/*     }).then(assert.fail).catch((error)=>{
-          assert(error.message.indexOf('revert') >= 0, 'cannot set ownership of a inactive tree.');
-     });*/
+    return CocoaVirtualField.deployed().then((instance)=>{
+      contractInstance = instance;
+      return contractInstance.setOwnershipDeed(outsider, 2, {from: outsider});
+    }).then(assert.fail).catch((error)=>{
+        assert(error.message.indexOf('revert') >= 0, 'outsider cannot set ownership.');
+        return contractInstance.showActiveTree(2);          
+    });
   });
-
 })
-
-
-// .then(assert.fail).catch(function(error) {
-//       assert(error.message.indexOf('revert') >= 0, 'cannot purchase more tokens than available');
