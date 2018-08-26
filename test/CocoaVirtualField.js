@@ -127,7 +127,9 @@ contract('CocoaVirtualField', function(accounts) {
         return contractInstance.setDataDeed(owner, "NoData", 1, {from: outsider});
     }).then(assert.fail).catch((error)=>{
         assert(error.message.indexOf('revert') >= 0, 'outside cannot save data.' );
-        return contractInstance.createDeed("NoData", {from: owner})
+        return contractInstance.setDataDeed.call(outsider, "NoData", 5, {from: newAdmin});
+    }).then((bool)=>{
+        assert.equal(bool, true, 'admin may set data deed.');
     });
   });
 
