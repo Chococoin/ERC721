@@ -145,7 +145,9 @@ contract('CocoaVirtualField', function(accounts) {
   it('Set ownership of deed to new owner', function(){
      return CocoaVirtualField.deployed().then((instance)=>{
        contractInstance = instance;
-       return contractInstance.setOwnershipDeed(owner);
+       contractInstance.createDeed();
+       contractInstance.createDeed();
+       return contractInstance.setOwnershipDeed(outsider, 2, {from: owner});
      }).then((bool)=>{
         assert(bool, true, 'ejecute the functio setOwnershipDeed.');
      })
