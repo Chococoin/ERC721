@@ -6,12 +6,26 @@ contract CocoaVirtualField is ERC721Token {
 
 	address public admin;
   address public owner;
-  uint256 internal NumberOfActives;
+  uint256 internal numberActives;
+  uint256 internal numberInactives;
+
+  function _setDataDeed(address _treeOwner, string _URItree, uint256 _tokenId)
+  internal returns (bool){
+    treeMetaData[_tokenId] = Tree(_treeOwner, _URItree, false);
+    _setTokenURI(_tokenId, _URItree);
+    return true;
+  }
 
   constructor(string _name, string _symbol) public {
     name_ = _name;
     symbol_ = _symbol;
     owner = msg.sender;
+  }
+
+  function setAdmin(address _newAdmin) external returns(bool){
+    require(msg.sender == owner);
+    admin = _newAdmin;
+    return true;
   }
 
   function createDeed(string _URItree) external returns (bool){
@@ -21,25 +35,13 @@ contract CocoaVirtualField is ERC721Token {
     _tokenId[0] = (allTokens.length).add(1);
     _mint(address(this), _tokenId[0]);
     _setDataDeed(address(this), _URItree, _tokenId[0]);
+    numberInactives.add(1);
     return true;   
-  }
-
-  function setAdmin(address _newAdmin) external returns(bool){
-    require(msg.sender == owner);
-    admin = _newAdmin;
-    return true;
   }
 
   function myTrees(address _tokenOwner) external view returns (uint256[]){
     require(msg.sender == _tokenOwner);
     return ownedTokens[_tokenOwner];
-  }
-
-  function _setDataDeed(address _treeOwner, string _URItree, uint256 _tokenId)
-  internal returns (bool){
-    treeMetaData[_tokenId] = Tree(_treeOwner, _URItree, false);
-    _setTokenURI(_tokenId, _URItree);
-    return true;
   }
 
   function showTreeOwner(uint256 _tokenId) external view returns(address){
