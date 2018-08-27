@@ -22,7 +22,7 @@ contract ERC721Token is SupportsInterfaceWithLookup, ERC721BasicToken, ERC721 {
   // Tree metada structure.
   struct Tree {
     address treeOwner;
-    string URItree;
+    string tokenURIs;
     bool active;    
   }
 
