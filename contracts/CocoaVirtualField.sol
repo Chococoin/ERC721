@@ -6,8 +6,8 @@ contract CocoaVirtualField is ERC721Token {
 
 	address public admin;
   address public owner;
-  uint256 internal numberActives;
-  uint256 internal numberInactives;
+  uint256 public numberActives;
+  uint256 public numberInactives;
 
   function _setDataDeed(address _treeOwner, string _URItree, uint256 _tokenId)
   internal returns (bool){
@@ -35,13 +35,20 @@ contract CocoaVirtualField is ERC721Token {
     _tokenId[0] = (allTokens.length).add(1);
     _mint(address(this), _tokenId[0]);
     _setDataDeed(address(this), _URItree, _tokenId[0]);
-    numberInactives.add(1);
+    numberInactives += 1;
     return true;   
   }
 
-  function myTrees(address _tokenOwner) external view returns (uint256[]){
+  function myTrees(address _tokenOwner) external view returns(uint256[]){
     require(msg.sender == _tokenOwner);
     return ownedTokens[_tokenOwner];
+  }
+
+  //provitional function for test (Not for production)
+  function totalTrees() external view returns(uint256){
+    if (numberInactives + numberActives == allTokens.length){
+      return allTokens.length;
+    }
   }
 
   function showTreeOwner(uint256 _tokenId) external view returns(address){
