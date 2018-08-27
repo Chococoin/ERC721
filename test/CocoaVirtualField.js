@@ -6,6 +6,7 @@ contract('CocoaVirtualField', function(accounts) {
   var newAdmin = web3.eth.accounts[1];;
   var owner = web3.eth.accounts[0];
   var outsider = web3.eth.accounts[4];
+  var origin = 0x00;
 
   it('initializes the contract with the correct values', function() {
     return CocoaVirtualField.deployed().then((instance) => {
@@ -80,7 +81,23 @@ contract('CocoaVirtualField', function(accounts) {
       contractInstance = instance;
       return contractInstance.showTreeOwner(3);
     }).then((address)=>{
-        assert.equal(address, 0x00, 'new deed has 0x00 has owner tree.')
+        assert.equal(address, origin, 'new deed has 0x00 has owner tree.')
+    });
+  });
+
+  it('Set ownership of deed to new owner', function(){
+    return CocoaVirtualField.deployed().then((instance)=>{
+      contractInstance = instance;
+      return contractInstance.showActiveTree(3);
+    }).then((bool)=>{
+        assert.equal(bool, false, 'must be false.');
+        return contractInstance.showTreeOwner(3);
+    }).then((address)=>{     
+        assert.equal(address, origin, 'outsider is the new owner of deed.');
+        // Tree #3 TreeOwner 0X00 and active false
+        return contractInstance.setOwnershipDeed(admin,  3, {from: owner});
+    }).then(assert.fail).catch((error)=>{
+        assert(error.message.indexOf('revert') >= 0, 'cannot set data once the deed is propiety of final user.');
     });
   });
 
@@ -115,23 +132,4 @@ contract('CocoaVirtualField', function(accounts) {
         assert(error.message.indexOf('revert') >= 0, 'cannot set data once the deed is propiety of final user.');
     });
   });*/
-
-  it('Set ownership of deed to new owner', function(){
-    return CocoaVirtualField.deployed().then((instance)=>{
-      contractInstance = instance;
-      return contractInstance.showActiveTree(3);
-    }).then((bool)=>{
-        assert.equal(bool, false, 'must be true.');
-        return contractInstance.setOwnershipDeed(outsider, 2, {from: outsider});
-    }).then(assert.fail).catch((error)=>{            
-        assert(error.message.indexOf('revert') >= 0, 'outsider cannot set ownership.');
-        contractInstance.setOwnershipDeed(outsider,  2, {from: owner});
-        return contractInstance.showTreeOwner(2);
-    }).then((address)=>{      
-        assert.equal(address, outsider, 'outsider is the new owner of deed.')
-        return contractInstance.setOwnershipDeed(admin,  2, {from: owner});
-    }).then(assert.fail).catch((error)=>{
-        assert(error.message.indexOf('revert') >= 0, 'cannot set data once the deed is propiety of final user.');
-    });
-  });
 })
