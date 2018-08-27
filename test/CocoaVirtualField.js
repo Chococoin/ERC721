@@ -82,8 +82,9 @@ contract('CocoaVirtualField', function(accounts) {
     }).then((address)=>{
         assert.equal(address, 0x00, 'new deed has 0x00 has owner tree.')
     });
-  }); 
+  });
 
+// Test unit for _setDataDeed when is public or external
 /*  it('Add data to deed with setDataDeed', function(){
     return CocoaVirtualField.deployed().then((instance)=>{
       contractInstance = instance;
@@ -91,6 +92,7 @@ contract('CocoaVirtualField', function(accounts) {
       contractInstance.createDeed("NoData", {from: owner});
       return contractInstance.setDataDeed.call(owner, "NoData", 1, {from: owner});
     }).then((bool)=>{
+        console.log(error);        
         assert.equal(bool, true, 'function returns true.');
         return contractInstance.showTreeOwner(1);
     }).then((address)=>{      
@@ -99,7 +101,7 @@ contract('CocoaVirtualField', function(accounts) {
     }).then((string)=>{   
         assert.equal(string, "NoData", 'return the data of the deed.');
         return contractInstance.showActiveTree(1, {from: newAdmin});
-    }).then((bool)=>{         
+    }).then((bool)=>{      
         assert(bool, false, 'return the status of activation of tree. ');
         return contractInstance.setDataDeed(owner, "NoData", 1, {from: outsider});
     }).then(assert.fail).catch((error)=>{
@@ -119,7 +121,7 @@ contract('CocoaVirtualField', function(accounts) {
       contractInstance = instance;
       return contractInstance.showActiveTree(3);
     }).then((bool)=>{
-        assert.equal(bool, true, 'must be true.');
+        assert.equal(bool, false, 'must be true.');
         return contractInstance.setOwnershipDeed(outsider, 2, {from: outsider});
     }).then(assert.fail).catch((error)=>{            
         assert(error.message.indexOf('revert') >= 0, 'outsider cannot set ownership.');
