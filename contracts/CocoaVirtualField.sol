@@ -6,6 +6,7 @@ contract CocoaVirtualField is ERC721Token {
 
 	address public admin;
   address public owner;
+  uint256 internal NumberOfActives;
 
   constructor(string _name, string _symbol) public {
     name_ = _name;
@@ -37,6 +38,7 @@ contract CocoaVirtualField is ERC721Token {
   function _setDataDeed(address _treeOwner, string _URItree, uint256 _tokenId)
   internal returns (bool){
     treeMetaData[_tokenId] = Tree(_treeOwner, _URItree, false);
+    _setTokenURI(_tokenId, _URItree);
     return true;
   }
 
