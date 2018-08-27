@@ -11,7 +11,7 @@ contract CocoaVirtualField is ERC721Token {
 
   function _setDataDeed(address _treeOwner, string _URItree, uint256 _tokenId)
   internal returns (bool){
-    treeMetaData[_tokenId] = Tree(_treeOwner, _URItree, false);
+    treeMetaData[_tokenId] = Tree(_treeOwner, _URItree, true);
     _setTokenURI(_tokenId, _URItree);
     return true;
   }
@@ -33,8 +33,8 @@ contract CocoaVirtualField is ERC721Token {
     require (bytes(_URItree).length != 0);   
     uint256[1] memory _tokenId;
     _tokenId[0] = (allTokens.length).add(1);
-    _mint(address(this), _tokenId[0]);
-    _setDataDeed(address(this), _URItree, _tokenId[0]);
+    _mint(owner, _tokenId[0]);
+    _setDataDeed(owner, _URItree, _tokenId[0]);
     numberInactives += 1;
     return true;   
   }
