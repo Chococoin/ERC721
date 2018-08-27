@@ -109,6 +109,15 @@ contract('CocoaVirtualField', function(accounts) {
     });
   });
 
+  it('desactivate tree', function(){
+    return CocoaVirtualField.deployed().then((instance)=>{
+      contractInstance = instance;
+      return contractInstance.desactivateTree.call(3);
+    }).then((bool)=>{
+        assert.equal(bool, true, 'deed desactivated succefully.')
+    });
+  });
+
 // Test unit for _setDataDeed when is public or external
 /*  it('Add data to deed with setDataDeed', function(){
     return CocoaVirtualField.deployed().then((instance)=>{
