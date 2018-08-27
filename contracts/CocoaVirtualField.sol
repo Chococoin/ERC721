@@ -13,13 +13,13 @@ contract CocoaVirtualField is ERC721Token {
     owner = msg.sender;
   }
 
-  function createDeed(string _URIdata) external returns (bool){
+  function createDeed(string _URItree) external returns (bool){
     require(msg.sender == owner || msg.sender == admin);
-    require (bytes(_URIdata).length != 0);   
+    require (bytes(_URItree).length != 0);   
     uint256[1] memory _tokenId;
-    _tokenId[0] = totalSupply().add(1);
+    _tokenId[0] = (allTokens.length).add(1);
     _mint(address(this), _tokenId[0]);
-    _setDataDeed(address(this), _URIdata, _tokenId[0]);
+    _setDataDeed(address(this), _URItree, _tokenId[0]);
     return true;   
   }
 
@@ -36,9 +36,6 @@ contract CocoaVirtualField is ERC721Token {
 
   function _setDataDeed(address _treeOwner, string _URItree, uint256 _tokenId)
   internal returns (bool){
-    require(msg.sender == owner || msg.sender == admin);
-    require(owner == treeMetaData[_tokenId].treeOwner || treeMetaData[_tokenId].treeOwner == 0X00);
-    require(bytes(_URItree).length != 0);
     treeMetaData[_tokenId] = Tree(_treeOwner, _URItree, false);
     return true;
   }
@@ -55,7 +52,7 @@ contract CocoaVirtualField is ERC721Token {
     return(treeMetaData[_tokenId].active);
   }
 
-  function setOwnershipDeed(address _to, uint256 _tokenId) external returns(bool){
+  function setOwnershipDeed(address _to, uint256 _tokenId) external payable returns(bool){
     require(msg.sender == treeMetaData[_tokenId].treeOwner);
     require(treeMetaData[_tokenId].active == true);
     treeMetaData[_tokenId].treeOwner = _to;
