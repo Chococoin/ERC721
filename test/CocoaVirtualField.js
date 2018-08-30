@@ -68,7 +68,7 @@ contract('CocoaVirtualField', function(accounts) {
         return contractInstance.createDeed.call("SomeData", {from: owner});
     }).then((bool)=>{
         assert.equal(bool, true, 'create another deed data.');
-        contractInstance.createDeed("SomeData", {from: owner});
+        contractInstance.createDeed("Pipo", {from: owner});
         return contractInstance.totalSupply();
     }).then((NumOfTokens)=>{      
         assert(NumOfTokens.toNumber(), 3, 'Another deed created.');
@@ -98,7 +98,7 @@ contract('CocoaVirtualField', function(accounts) {
       contractInstance = instance;
       return contractInstance.desactivateTree.call(3);
     }).then((bool)=>{
-        assert.equal(bool, true, 'deed desactivated succefully.')
+        assert.equal(bool, true, 'deed desactivated succefully.');
     });
   });
 
@@ -112,6 +112,25 @@ contract('CocoaVirtualField', function(accounts) {
         return contractInstance.showTreeOwner(2);
     }).then((address)=>{
         assert.equal(address, outsider, 'check new the outsider is new owner');
+        return contractInstance.balanceOf(owner);
+    }).then((num)=>{
+        assert.equal(num.toNumber(), 2, 'Substract properly the deed to owner.');
+        return contractInstance.showTreeOwner(1);
+    }).then((address)=>{
+        assert.equal(address, owner, 'Tree 1 is still from owner');
+        return contractInstance.showTreeOwner(2);
+    }).then((address)=>{
+        assert.equal(address, outsider, 'check new the outsider is new owner');
+        contractInstance.safeTransferFrom(owner, outsider, 1);
+        return contractInstance.balanceOf(owner);
+    }).then((num)=>{
+        assert.equal(num.toNumber(), 1, 'Substract properly the deed to owner.');
+        return contractInstance.showTreeOwner(3);        
+    }).then((address)=>{
+        assert.equal(address, owner, 'Tree 3 is still from owner');
+        return contractInstance.showTreeURI(3);
+    }).then((string)=>{
+        assert.equal(string, "Pipo", 'Show right URI.');
     });
   });
 
