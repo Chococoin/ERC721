@@ -32,10 +32,6 @@ contract CocoaTreeDeedSell{
     paused = false;
   }
 
-<<<<<<< HEAD
-  function buyDeeds(uint256 _numberOfTokens) notPaused payable returns(bool){
-    require(msg.value == tokenPrice.mul(_numberOfTokens));
-=======
   function treesInStock() external view returns(uint256){
     return deedStore.balanceOf(this);
   }
@@ -46,8 +42,6 @@ contract CocoaTreeDeedSell{
     require(deedStore.transfer(_numberOfTokens));
     treesSold += _numberOfTokens;
     emit sell(msg.sender, _numberOfTokens);
->>>>>>> a61252ac622e554dd3ef6b1dfa52c776781bb647
-    return true;
   }
 
   function pauseContract() external notPaused onlyAdmin returns (bool){
