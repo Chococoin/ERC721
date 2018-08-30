@@ -7,6 +7,7 @@ contract('CocoaVirtualField', function(accounts) {
   var owner = web3.eth.accounts[0];
   var outsider = web3.eth.accounts[4];
   var origin = 0x00;
+  var cont1, cont2;
 
   it('initializes the contract with the correct values', function() {
     return CocoaVirtualField.deployed().then((instance) => {
@@ -108,7 +109,7 @@ contract('CocoaVirtualField', function(accounts) {
       return contractInstance.showTreeOwner(2);
     }).then((address)=>{
         assert.equal(address, owner, 'show ownership tree.');
-        contractInstance.safeTransferFrom(owner, outsider, 2);
+        contractInstance.safeTransferFrom(owner, outsider, 2, {from: owner});
         return contractInstance.showTreeOwner(2);
     }).then((address)=>{
         assert.equal(address, outsider, 'check new the outsider is new owner');
@@ -121,7 +122,7 @@ contract('CocoaVirtualField', function(accounts) {
         return contractInstance.showTreeOwner(2);
     }).then((address)=>{
         assert.equal(address, outsider, 'check new the outsider is new owner');
-        contractInstance.safeTransferFrom(owner, outsider, 1);
+        contractInstance.safeTransferFrom(owner, outsider, 1, {from: owner});
         return contractInstance.balanceOf(owner);
     }).then((num)=>{
         assert.equal(num.toNumber(), 1, 'Substract properly the deed to owner.');
@@ -131,6 +132,12 @@ contract('CocoaVirtualField', function(accounts) {
         return contractInstance.showTreeURI(3);
     }).then((string)=>{
         assert.equal(string, "Pipo", 'Show right URI.');
+        contractInstance.safeTransferFrom(outsider, newAdmin, 1, {from: outsider});
+        return contractInstance.showTreeOwner(1);
+    }).then((address)=>{
+        assert.equal(address, newAdmin, 'Tree is now in the hands of admin.');
+        cont1 = contractInstance.showTreeOwner(2);
+        cont2 = contractInstance.
     });
   });
 

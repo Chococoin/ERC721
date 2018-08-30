@@ -188,6 +188,7 @@ contract ERC721Token is SupportsInterfaceWithLookup, ERC721BasicToken, ERC721 {
     // Clear metadata (if any)
     if (bytes(tokenURIs[_tokenId]).length != 0) {
       delete tokenURIs[_tokenId];
+      treeMetaData[_tokenId] = Tree(address(0), "BURNED", false);
     }
 
     // Reorg all tokens array
