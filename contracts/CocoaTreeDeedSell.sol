@@ -3,7 +3,8 @@ pragma solidity ^0.4.20;
 import './CocoaVirtualField.sol';
 import './SafeMath.sol';
 
-contract CocoaTreeDeedSell is SafeMath{
+contract CocoaTreeDeedSell{
+  using SafeMath for uint256;
   CocoaVirtualField public deedStore;
   address admin;
   uint256 public tokenPrice;
@@ -25,8 +26,7 @@ contract CocoaTreeDeedSell is SafeMath{
   }
 
   function buyDeeds(uint256 _numberOfTokens) notPaused payable returns(bool){
-    require(msg.value == mul(_numberOfTokens, tokenPrice));
-    retuns true;
-    
+    require(msg.value == tokenPrice.mul(_numberOfTokens));
+    return true;
   }
 }

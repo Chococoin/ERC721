@@ -93,28 +93,25 @@ contract('CocoaVirtualField', function(accounts) {
     });
   });
 
-  it('Set ownership of deed to new owner', function(){
-    return CocoaVirtualField.deployed().then((instance)=>{
-      contractInstance = instance;
-      return contractInstance.showActiveTree(3);
-    }).then((bool)=>{
-        assert.equal(bool, true, 'must be false.');
-        return contractInstance.showTreeOwner(3);
-    }).then((address)=>{
-        assert.equal(address, owner, 'outsider is the new owner of deed.');
-        // Tree #3 TreeOwner is owner and active false
-        return contractInstance.setOwnershipDeed.call(newAdmin, 3, {from: owner});
-    }).then((bool)=>{
-        assert.equal(bool, true, 'set deed to admin propiety of final user.');
-    });
-  });
-
   it('desactivate tree', function(){
     return CocoaVirtualField.deployed().then((instance)=>{
       contractInstance = instance;
       return contractInstance.desactivateTree.call(3);
     }).then((bool)=>{
         assert.equal(bool, true, 'deed desactivated succefully.')
+    });
+  });
+
+  it('execute the SafeTransferFrom', function(){
+    return CocoaVirtualField.deployed().then((instance)=>{
+      contractInstance = instance;
+      return contractInstance.showTreeOwner(2);
+    }).then((address)=>{
+        assert.equal(address, owner, 'show ownership tree.');
+        contractInstance.safeTransferFrom(owner, outsider, 2);
+        return contractInstance.showTreeOwner(2);
+    }).then((address)=>{
+        assert.equal(address, outsider, 'check new the outsider is new owner');
     });
   });
 

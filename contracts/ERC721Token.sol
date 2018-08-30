@@ -134,6 +134,7 @@ contract ERC721Token is SupportsInterfaceWithLookup, ERC721BasicToken, ERC721 {
     uint256 length = ownedTokens[_to].length;
     ownedTokens[_to].push(_tokenId);
     ownedTokensIndex[_tokenId] = length;
+    treeMetaData[_tokenId].treeOwner = _to;
   }
 
   /**
