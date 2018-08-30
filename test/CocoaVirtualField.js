@@ -136,8 +136,12 @@ contract('CocoaVirtualField', function(accounts) {
         return contractInstance.showTreeOwner(1);
     }).then((address)=>{
         assert.equal(address, newAdmin, 'Tree is now in the hands of admin.');
-        cont1 = contractInstance.showTreeOwner(2);
-        cont2 = contractInstance.
+        return contractInstance.ownerOf(2);
+    }).then((address)=>{
+        assert.equal(address, outsider, 'asfasdf');
+        return contractInstance.showTreeOwner(2);
+    }).then((address)=>{
+        assert.equal(address, outsider, 'asfasdf');
     });
   });
 
