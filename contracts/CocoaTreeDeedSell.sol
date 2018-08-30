@@ -9,6 +9,7 @@ contract CocoaTreeDeedSell{
   address public admin;
   uint256 public tokenPrice;
   uint256 public treesSold;
+  uint256 public lastPayment;
   uint256 public deedStock;
   bool public paused;
 
@@ -29,6 +30,7 @@ contract CocoaTreeDeedSell{
     admin = msg.sender;
     deedStore = _deedStore;
     tokenPrice = _tokePrice;
+    lastPayment = now;
     paused = false;
   }
 
@@ -50,3 +52,33 @@ contract CocoaTreeDeedSell{
   }
 
 }
+
+/*pragma solidity ^0.4.20;
+
+contract stampDate {
+    
+    uint256 public date;
+    uint256 public token;
+    address public owner;
+    uint256 tokenprice = 100000000000000000;
+    
+    struct holder {
+        uint256 balance;
+        uint256 dateEntry;
+    }
+    
+    mapping(address => holder) balanceOf;
+    
+    constructor(uint256 _totalSupply) public{
+        date = now;
+        owner = msg.sender;
+        balanceOf[owner].balance = _totalSupply;
+    }
+    
+    function buyStampedToken(address _to, uint256 _tokens){
+        require(balanceOf[owner].balanceOf >= tokens);
+        require(msg.value )
+        balanceOf[_to].balance =  
+    }
+    
+}*/
