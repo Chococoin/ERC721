@@ -11,7 +11,7 @@ contract CocoaTreeDeedSell is SafeMath{
   bool public paused;
 
   modifier notPaused{
-    require(notPaused == false);
+    require(paused == false);
     _; 
   }
 
@@ -19,13 +19,14 @@ contract CocoaTreeDeedSell is SafeMath{
 
   constructor(CocoaVirtualField _deedStore, uint256 _tokePrice) public {
     admin = msg.sender;
-    tokenContract = _deedStore;
+    deedStore = _deedStore;
     tokenPrice = _tokePrice;
     paused = false;
   }
 
-  function buyDeeds(uint256 _numberOfTokens) notPaused payable return(bool){
+  function buyDeeds(uint256 _numberOfTokens) notPaused payable returns(bool){
     require(msg.value == mul(_numberOfTokens, tokenPrice));
+    retuns true;
     
   }
 }
