@@ -35,7 +35,7 @@ contract CocoaVirtualField is ERC721Token {
     _tokenId[0] = (allTokens.length).add(1);
     _mint(owner, _tokenId[0]);
     _setDataDeed(owner, _URItree, _tokenId[0]);
-    numberInactives += 1;
+    numberActives += 1;
     return true;   
   }
 
