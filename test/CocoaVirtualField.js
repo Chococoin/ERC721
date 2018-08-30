@@ -55,7 +55,7 @@ contract('CocoaVirtualField', function(accounts) {
         return contractInstance.totalSupply();
     }).then((NumOfTokens)=>{
         assert.equal(NumOfTokens.toNumber(), 1, 'token added.');
-        return contractInstance.myTrees(owner);
+        return contractInstance.myTrees({from: owner});
     }).then((list)=>{
         assert.equal(list.length, 1, 'has a tree in list.');
         return contractInstance.createDeed.call("SomeData", {from: newAdmin});

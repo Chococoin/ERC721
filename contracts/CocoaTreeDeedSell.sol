@@ -37,15 +37,15 @@ contract CocoaTreeDeedSell{
   }
 
   function buyDeeds(uint256 _numberOfTokens) external notPaused payable returns(bool){
-    require(msg.value == mul(_numberOfTokens, tokenPrice));
+    require(msg.value == tokenPrice.mul(_numberOfTokens));
     require(deedStore.balanceOf(this) >= _numberOfTokens);
-    require(deedStore.transfer(_numberOfTokens));
+    address(this).transfer(_numberOfTokens);
     treesSold += _numberOfTokens;
     emit sell(msg.sender, _numberOfTokens);
   }
 
   function pauseContract() external notPaused onlyAdmin returns (bool){
-    emit contractState(bool);
+    emit contractState(!paused);
     return (paused = true);
   }
 
