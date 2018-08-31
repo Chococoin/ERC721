@@ -53,42 +53,84 @@ contract CocoaTreeDeedSell{
 
 }
 
-/* pragma solidity ^0.4.20;
+/*
+pragma solidity ^0.4.20;
 
 contract stampDate {
     
-    uint256 public date;
+    uint256 public startDate;
+    uint256 public finalDate;
     uint256 public token;
     address public owner;
-    uint256 tokenprice = 100000000000000;
+    uint256 tokenprice;
+    uint256 public allowance;
+    uint256 public globalProduction;
+    uint256 public currentlyCicleProduction;
     
     struct holder {
         uint256 balance;
-        uint256 dateEntry;
+        uint256 production;
+        uint256 cicleProduction;
     }
     
     mapping(address => holder) balanceOf;
     
-    constructor(uint256 _totalSupply) public{
-        date = now;
+    constructor() public{
+        tokenprice = 1000000000000000000;
+        startDate = now;
         owner = msg.sender;
-        balanceOf[owner].balance = _totalSupply;
+        balanceOf[owner].balance = 400;
+        currentlyCicleProduction = 1;
     }
     
-    function buyStampedToken(uint256 _tokens) public  payable{
+    function buyStampedToken(uint256 _tokens) external payable{
         require(balanceOf[owner].balance >= _tokens);
         require(msg.value == tokenprice*_tokens);
+        require(balanceOf[msg.sender].cicleProduction == currentlyCicleProduction ||
+        balanceOf[msg.sender].cicleProduction == 0);
+        if (balanceOf[msg.sender].cicleProduction == 0) {
+           balanceOf[msg.sender].cicleProduction = currentlyCicleProduction; 
+        }
+        uint256[1] memory _production;
+        _production[0] = now * _tokens;
         balanceOf[msg.sender].balance += _tokens;
-        balanceOf[msg.sender].dateEntry = now;
+        balanceOf[msg.sender].production = _production[0];
         balanceOf[owner].balance -= _tokens;
+        globalProduction += _production[0];
+        address(owner).transfer(msg.value);
+        token += _tokens;
     }
     
-    function showData() public view returns(uint256){
-        return balanceOf[msg.sender].dateEntry;
+    function showProduction() external view returns(uint256){
+        return balanceOf[msg.sender].production;
     }
     
-    function showbalance() public view returns(uint256){
-        return balanceOf[msg.sender].dateEntry;
+    function showOwnerBalance() external view returns(uint256){
+        return balanceOf[owner].balance;
+    }
+    
+    function showAllowance() external view returns(uint256){
+        return address(this).balance;
+    }
+    
+    function showCurrentCicle() external view returns(uint256){
+        return balanceOf[msg.sender].cicleProduction;
+    }
+    
+    function paymentMoment() external payable{
+        require(msg.sender == owner);
+        currentlyCicleProduction += 1;
+        finalDate = now;
+        allowance = msg.value;
+    }
+    
+    function takeShares() external returns(bool){
+        require(balanceOf[msg.sender].cicleProduction < currentlyCicleProduction);
+        balanceOf[msg.sender].cicleProduction += 1;
+        uint256[1] memory iPro;
+        iPro[0] = (balanceOf[msg.sender].production * allowance / globalProduction);
+        address(msg.sender).transfer(iPro[0]);
+        return true;
     }
 }
  */
