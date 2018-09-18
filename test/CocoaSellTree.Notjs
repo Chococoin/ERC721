@@ -1,8 +1,0 @@
-var CocoaVirtualField = artifacts.require('./CocoaVirtualField.sol');
-var CocoaTokenSale = artifacts.require('./CocoaTokenSale.sol');
-
-contract('CocoaTokenSale', function(accounts) {
-
-
-
-});

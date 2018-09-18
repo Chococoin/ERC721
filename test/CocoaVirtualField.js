@@ -82,7 +82,7 @@ contract('CocoaVirtualField', function(accounts) {
     });
   });
 
-  it('New deed created is propiety of Owner', function(){
+  it('New deed created is propierty of Owner', function(){
     return CocoaVirtualField.deployed().then((instance)=>{
       contractInstance = instance;
       return contractInstance.showTreeOwner(3);
